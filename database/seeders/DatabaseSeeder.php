@@ -14,16 +14,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
         $this->call([
-            NotificationSeeder::class,
-        ]);
-        $this->call([
+            // Master Data
+            JenisImunisasiSeeder::class,
+            JenisVitaminSeeder::class,
+
+            // Transaction Data
             AnakSeeder::class,
+            ImunisasiSeeder::class,
+            PemeriksaanSeeder::class,
+            PemberianVitaminSeeder::class,
         ]);
-//        User::factory()->create([
-//            'name' => 'Test User',
-//            'email' => 'test@example.com',
-//        ]);
+
+        $this->command->info('');
+        $this->command->info('====================================');
+        $this->command->info('✓ SEMUA SEEDER BERHASIL DIJALANKAN!');
+        $this->command->info('====================================');
+        $this->command->info('');
     }
 }

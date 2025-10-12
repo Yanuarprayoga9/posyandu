@@ -43,13 +43,10 @@ class AnakController extends Controller
         return view('anak.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nik_anak' => 'required|string|unique:anak_balita,nik_anak|max:16',
+            'nik_anak' => 'required|string|unique:anaks,nik_anak|max:16',
             'nama_anak' => 'required|string|max:255',
             'tempat_lahir_anak' => 'nullable|string|max:255',
             'tanggal_lahir_anak' => 'nullable|date',
@@ -81,33 +78,12 @@ class AnakController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        $anak = Anak::findOrFail($id);
-        return view('anak.show', compact('anak'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $anak = Anak::findOrFail($id);
-        return view('anak.edit', compact('anak'));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $anak = Anak::findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'nik_anak' => 'required|string|max:16|unique:anak_balita,nik_anak,' . $id,
+            'nik_anak' => 'required|string|max:16|unique:anaks,nik_anak,' . $id,
             'nama_anak' => 'required|string|max:255',
             'tempat_lahir_anak' => 'nullable|string|max:255',
             'tanggal_lahir_anak' => 'nullable|date',
@@ -134,6 +110,25 @@ class AnakController extends Controller
                 ->withInput();
         }
     }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $anak = Anak::findOrFail($id);
+        return view('anak.show', compact('anak'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $anak = Anak::findOrFail($id);
+        return view('anak.edit', compact('anak'));
+    }
+
 
     /**
      * Remove the specified resource from storage.

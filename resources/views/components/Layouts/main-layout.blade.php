@@ -8,11 +8,12 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://unpkg.com/flowbite@1.6.5/dist/flowbite.min.js"></script>
 
-    <title>Page | @yield('title')</title>
+    <title>Posyandu | @yield('title')</title>
 </head>
 
 <body class="bg-gray-100">
-<nav class="fixed top-0 z-50 w-full bg-teal-800 border-b border-teal-700">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 z-50 w-full bg-teal-800 border-b border-teal-700 shadow-lg">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
             <div class="flex items-center justify-start rtl:justify-end">
@@ -26,9 +27,11 @@
                               d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
                     </svg>
                 </button>
-                <a href="https://flowbite.com" class="flex ms-2 md:me-24">
-                    <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo"/>
-                    <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-white">Flowbite</span>
+                <a href="{{ route('dashboard') }}" class="flex ms-2 md:me-24">
+                    <svg class="w-8 h-8 me-3 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                    </svg>
+                    <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-white">Posyandu</span>
                 </a>
             </div>
             <div class="flex items-center">
@@ -43,19 +46,19 @@
                         </button>
                     </div>
                     <div
-                        class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm"
+                        class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow"
                         id="dropdown-user">
                         <div class="px-4 py-3" role="none">
                             <p class="text-sm text-gray-900" role="none">
-                                Neil Sims
+                                {{ auth()->user()->name ?? 'User' }}
                             </p>
                             <p class="text-sm font-medium text-gray-900 truncate" role="none">
-                                neil.sims@flowbite.com
+                                {{ auth()->user()->email ?? 'user@posyandu.com' }}
                             </p>
                         </div>
                         <ul class="py-1" role="none">
                             <li>
-                                <a href="#"
+                                <a href="{{ route('dashboard') }}"
                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50"
                                    role="menuitem">Dashboard</a>
                             </li>
@@ -65,14 +68,12 @@
                                    role="menuitem">Settings</a>
                             </li>
                             <li>
-                                <a href="#"
-                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50"
-                                   role="menuitem">Earnings</a>
-                            </li>
-                            <li>
-                                <a href="#"
-                                   class="block px-4 py-2 text-sm text-gray-700 hover:bg-teal-50"
-                                   role="menuitem">Sign out</a>
+                                <form method="POST" action="{{ route('logout') }}">
+                                    @csrf
+                                    <button type="submit"
+                                            class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-teal-50"
+                                            role="menuitem">Sign out</button>
+                                </form>
                             </li>
                         </ul>
                     </div>
@@ -82,15 +83,16 @@
     </div>
 </nav>
 
+<!-- Sidebar -->
 <aside id="logo-sidebar"
-       class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-teal-700 border-r border-teal-700 sm:translate-x-0"
+       class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-teal-600 border-r border-teal-700 sm:translate-x-0 shadow-xl"
        aria-label="Sidebar">
-    <div class="h-full px-3 pb-4 overflow-y-auto bg-teal-700>
+    <div class="h-full px-3 pb-4 overflow-y-auto bg-teal-600">
         <ul class="space-y-2 font-medium">
             <!-- Dashboard -->
             <li>
-                <a href="#"
-                   class="flex items-center p-2 text-white rounded-lg hover:bg-teal-700 group">
+                <a href="{{ route('dashboard') }}"
+                   class="flex items-center p-2 text-white rounded-lg hover:bg-teal-700 group transition-colors duration-200 {{ request()->routeIs('dashboard') ? 'bg-teal-700' : '' }}">
                     <svg
                         class="w-5 h-5 text-white transition duration-75 group-hover:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
@@ -106,7 +108,7 @@
             <!-- Posyandu Anak & Balita -->
             <li>
                 <button type="button"
-                        class="flex items-center w-full p-2 text-white rounded-lg hover:bg-teal-700 group"
+                        class="flex items-center w-full p-2 text-white rounded-lg hover:bg-teal-700 group transition-colors duration-200 {{ request()->routeIs('data-anak.*') ? 'bg-teal-700' : '' }}"
                         data-collapse-toggle="posyandu-dropdown">
                     <svg
                         class="shrink-0 w-5 h-5 text-white transition duration-75 group-hover:text-white"
@@ -121,16 +123,28 @@
                 </button>
                 <ul id="posyandu-dropdown" class="hidden py-2 space-y-2">
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700">Data Anak & Balita</a>
+                        <a href="{{ route('anak.index') }}"
+                           class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700 transition-colors duration-200 {{ request()->routeIs('data-anak.*') ? 'bg-teal-700' : '' }}">
+                            Data Anak & Balita
+                        </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700">Data Orang Tua</a>
+                        <a href="#"
+                           class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700 transition-colors duration-200">
+                            Data Orang Tua
+                        </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700">Data Imunisasi</a>
+                        <a href="{{ route('imunisasi.index') }}"
+                           class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700 transition-colors duration-200 {{ request()->routeIs('imunisasi.*') ? 'bg-teal-700' : '' }}">
+                            Data Imunisasi
+                        </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700">Data Pemeriksaan</a>
+                        <a href="{{ route('pemeriksaan.index') }}"
+                           class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700 transition-colors duration-200 {{ request()->routeIs('pemeriksaan.*') ? 'bg-teal-700' : '' }}">
+                            Data Pemeriksaan
+                        </a>
                     </li>
                 </ul>
             </li>
@@ -138,7 +152,7 @@
             <!-- Pemeriksaan -->
             <li>
                 <button type="button"
-                        class="flex items-center w-full p-2 text-white rounded-lg hover:bg-teal-700 group"
+                        class="flex items-center w-full p-2 text-white rounded-lg hover:bg-teal-700 group transition-colors duration-200"
                         data-collapse-toggle="pemeriksaan-dropdown">
                     <svg
                         class="shrink-0 w-5 h-5 text-white transition duration-75 group-hover:text-white"
@@ -156,10 +170,16 @@
                 </button>
                 <ul id="pemeriksaan-dropdown" class="hidden py-2 space-y-2">
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700">Imunisasi</a>
+                        <a href="{{ route('imunisasi.create') }}"
+                           class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700 transition-colors duration-200">
+                            Imunisasi
+                        </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700">Penimbangan</a>
+                        <a href="{{ route('pemeriksaan.create') }}"
+                           class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700 transition-colors duration-200">
+                            Penimbangan
+                        </a>
                     </li>
                 </ul>
             </li>
@@ -167,7 +187,7 @@
             <!-- Riwayat -->
             <li>
                 <button type="button"
-                        class="flex items-center w-full p-2 text-white rounded-lg hover:bg-teal-700 group"
+                        class="flex items-center w-full p-2 text-white rounded-lg hover:bg-teal-700 group transition-colors duration-200"
                         data-collapse-toggle="riwayat-dropdown">
                     <svg
                         class="shrink-0 w-5 h-5 text-white transition duration-75 group-hover:text-white"
@@ -181,18 +201,24 @@
                 </button>
                 <ul id="riwayat-dropdown" class="hidden py-2 space-y-2">
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700">Perkembangan Anak & Balita</a>
+                        <a href="{{ route('anak.index') }}"
+                           class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700 transition-colors duration-200">
+                            Perkembangan Anak & Balita
+                        </a>
                     </li>
                     <li>
-                        <a href="#" class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700">Pantau Gizi Anak</a>
+                        <a href="{{ route('pemeriksaan.index') }}"
+                           class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700 transition-colors duration-200">
+                            Pantau Gizi Anak
+                        </a>
                     </li>
                 </ul>
             </li>
 
             <!-- Event -->
             <li>
-                <a href="#"
-                   class="flex items-center p-2 text-white rounded-lg hover:bg-teal-700 group">
+                <a href="{{ route('event.index') }}"
+                   class="flex items-center p-2 text-white rounded-lg hover:bg-teal-700 group transition-colors duration-200 {{ request()->routeIs('event.*') ? 'bg-teal-700' : '' }}">
                     <svg
                         class="shrink-0 w-5 h-5 text-white transition duration-75 group-hover:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -205,7 +231,7 @@
             <!-- Laporan -->
             <li>
                 <a href="#"
-                   class="flex items-center p-2 text-white rounded-lg hover:bg-teal-700 group">
+                   class="flex items-center p-2 text-white rounded-lg hover:bg-teal-700 group transition-colors duration-200">
                     <svg
                         class="shrink-0 w-5 h-5 text-white transition duration-75 group-hover:text-white"
                         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
@@ -218,24 +244,48 @@
     </div>
 </aside>
 
-<div class="mt-12 p-4 sm:ml-64">
-                @yield('content')
+<!-- Main Content Area -->
+<div class="p-4 sm:ml-64">
+    <div class="p-4 mt-14">
+        <!-- Breadcrumb -->
+        @if(!request()->routeIs('dashboard'))
+            <nav class="flex mb-4" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                    <li class="inline-flex items-center">
+                        <a href="{{ route('dashboard') }}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-teal-600">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                            </svg>
+                            Dashboard
+                        </a>
+                    </li>
+                    @yield('breadcrumb')
+                </ol>
+            </nav>
+        @endif
 
+        <!-- Content Section with Card -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            @if(session('success'))
+                <div class="mb-4 p-4 text-sm text-green-800 rounded-lg bg-green-50 border border-green-200" role="alert">
+                    <span class="font-medium">Success!</span> {{ session('success') }}
+                </div>
+            @endif
+
+            @if(session('error'))
+                <div class="mb-4 p-4 text-sm text-red-800 rounded-lg bg-red-50 border border-red-200" role="alert">
+                    <span class="font-medium">Error!</span> {{ session('error') }}
+                </div>
+            @endif
+
+            @yield('content')
+        </div>
+    </div>
 </div>
-
-
-{{--<div class="p-4 sm:ml-64">--}}
-{{--    <div class="p-4 mt-14">--}}
-{{--        <div class="m-5">--}}
-{{--            @yield('content')--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--</div>--}}
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">
 </script>
-<script src="../path/to/flowbite/dist/flowbite.min.js"></script>
 
 </body>
 
