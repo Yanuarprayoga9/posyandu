@@ -5,6 +5,10 @@ use App\Http\Controllers\AnakController;
 use App\Http\Controllers\ImunisasiController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PemeriksaanController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrangtuaController;
+use App\Http\Controllers\laporanController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
@@ -25,12 +29,48 @@ Route::middleware('guest')->group(function () {
 
 // Authenticated routes
 Route::middleware('auth')->group(function () {
+    Route::middleware('role:admin')->group(function () {
+        Route::resource('users', UserController::class);
+        Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    });
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::resource('orangtua', \App\Http\Controllers\OrangtuaController::class);
+
+
+
 
     // Dashboard untuk semua user
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+      Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
+
+        // === API METRICS untuk auto-refresh Dashboard ===
+    Route::get('/api/dashboard/metrics', function () {
+        // Ambil data langsung dari database
+        return response()->json([
+            'total'     => \App\Models\Anak::count(),
+            'laki'      => \App\Models\Anak::where('jenis_kelamin', 'L')->count(),
+            'perempuan' => \App\Models\Anak::where('jenis_kelamin', 'P')->count(),
+        ]);
+    })->name('api.dashboard.metrics')
+      ->middleware('throttle:30,1'); // batasi 30 request per menit
+});
+
+
+
+
+
+// 🧩 Kalau BELUM pakai sistem login (auth), gunakan versi ini sementara:
+// Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+// Route::get('/api/dashboard/metrics', function () {
+//     return response()->json([
+//         'total'     => \App\Models\Anak::count(),
+//         'laki'      => \App\Models\Anak::where('jenis_kelamin', 'L')->count(),
+//         'perempuan' => \App\Models\Anak::where('jenis_kelamin', 'P')->count(),
+//     ]);
+// })->name('api.dashboard.metrics')->middleware('throttle:30,1');
 
     // Routes khusus admin
     Route::middleware('role:admin')->group(function () {
@@ -44,7 +84,6 @@ Route::middleware('auth')->group(function () {
 //        Route::get('/data-anak', function () {
 //            return 'Data Anak Management';
 //        })->name('data-anak');
-    });
 //});
 
 Route::resource('events', EventController::class);
