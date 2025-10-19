@@ -120,3 +120,4 @@ class DashboardController extends Controller
         return $candidates[0] ?? 'created_at';
     }
 }
+<?php

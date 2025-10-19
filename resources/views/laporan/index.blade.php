@@ -119,3 +119,4 @@
 </script>
 @endpush
 @endsection
+<?php
