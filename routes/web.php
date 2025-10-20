@@ -9,10 +9,8 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PantauGiziAnakController;
 use App\Http\Controllers\PemeriksaanController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OrangtuaController;
-use App\Http\Controllers\laporanController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
