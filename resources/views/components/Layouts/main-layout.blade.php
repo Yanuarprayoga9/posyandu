@@ -8,7 +8,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://unpkg.com/flowbite@1.6.5/dist/flowbite.min.js"></script>
 
-    <title>Posyandu | @yield('title')</title>
+    <title>Posyandu Mugi Lestari, Desa Candirenggo | @yield('title')</title>
 </head>
 
 <body class="bg-gray-100">
@@ -31,7 +31,11 @@
                     <svg class="w-8 h-8 me-3 text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                     </svg>
-                    <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-white">Posyandu</span>
+                    <span class="self-center text-lg font-semibold sm:text-xl text-white leading-tight">
+  <span class="block">Posyandu Mugi Lestari</span>
+  <span class="block text-white/80 text-sm sm:text-base font-normal">Desa Candirenggo</span>
+</span>
+
                 </a>
             </div>
             <div class="flex items-center">
@@ -129,7 +133,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#"
+                        <a href="{{ route('orangtua.index') }}"
                            class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700 transition-colors duration-200">
                             Data Orang Tua
                         </a>
@@ -230,7 +234,7 @@
 
             <!-- Laporan -->
             <li>
-                <a href="#"
+                <a href="{{ route('laporan.index') }}"
                    class="flex items-center p-2 text-white rounded-lg hover:bg-teal-700 group transition-colors duration-200">
                     <svg
                         class="shrink-0 w-5 h-5 text-white transition duration-75 group-hover:text-white"
@@ -282,6 +286,8 @@
         </div>
     </div>
 </div>
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous">

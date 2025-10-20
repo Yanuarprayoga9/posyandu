@@ -9,6 +9,10 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PantauGiziAnakController;
 use App\Http\Controllers\PemeriksaanController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrangtuaController;
+use App\Http\Controllers\laporanController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
@@ -32,7 +36,15 @@ Route::middleware('guest')->group(function () {
 
 // Authenticated routes
 Route::middleware('auth')->group(function () {
+    Route::middleware('role:admin')->group(function () {
+        Route::resource('users', UserController::class);
+        Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    });
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::resource('orangtua', \App\Http\Controllers\OrangtuaController::class);
+
+
+
 
 //    // Dashboard untuk semua user
 //    Route::get('/dashboard', function () {
