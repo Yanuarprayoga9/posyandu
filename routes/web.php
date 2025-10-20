@@ -1,20 +1,27 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\AnakController;
 use App\Http\Controllers\ImunisasiController;
+use App\Http\Controllers\KpspController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PantauGiziAnakController;
 use App\Http\Controllers\PemeriksaanController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
-
+use App\Http\Controllers\LandingController;
 
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $events = \App\Models\Event::latest()
+        ->take(6)
+        ->get();
 
+    return view('welcome', compact('events'));
+});
 // Guest routes (hanya bisa diakses jika belum login)
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
@@ -27,10 +34,10 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    // Dashboard untuk semua user
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+//    // Dashboard untuk semua user
+//    Route::get('/dashboard', function () {
+//        return view('dashboard');
+//    })->name('dashboard');
 
     // Routes khusus admin
     Route::middleware('role:admin')->group(function () {
@@ -44,7 +51,7 @@ Route::middleware('auth')->group(function () {
 //        Route::get('/data-anak', function () {
 //            return 'Data Anak Management';
 //        })->name('data-anak');
-    });
+});
 //});
 
 Route::resource('events', EventController::class);
@@ -106,4 +113,24 @@ Route::middleware('role:admin,kader')->group(function () {
     Route::get('event/{event}/edit', [EventController::class, 'edit'])->name('event.edit');
     Route::put('event/{event}', [EventController::class, 'update'])->name('event.update');
     Route::delete('event/{event}', [EventController::class, 'destroy'])->name('event.destroy');
+
+    Route::get('/kpsp', [KpspController::class, 'index'])->name('kpsp.index');
+    Route::get('/kpsp/create', [KpspController::class, 'create'])->name('kpsp.create');
+    Route::post('/kpsp', [KpspController::class, 'store'])->name('kpsp.store');
+
+
+    Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan.index');
+    Route::get('/laporan/export/excel', [LaporanController::class, 'exportExcel'])->name('laporan.export.excel');
+    Route::get('/laporan/export/pdf', [LaporanController::class, 'exportPDF'])->name('laporan.export.pdf');
+    Route::get('/laporan/export/csv', [LaporanController::class, 'exportCSV'])->name('laporan.export.csv');
+
+    Route::resource('pantau-gizi', PantauGiziAnakController::class);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard')->middleware('auth');
+
+
 });
+
+// Landing Page Routes (Public)
+//Route::get('/', [LandingController::class, 'index'])->name('landing.index');
+Route::get('/kegiatan', [LandingController::class, 'events'])->name('landing.events');
+Route::get('/kegiatan/{event}', [LandingController::class, 'eventDetail'])->name('landing.event-detail');

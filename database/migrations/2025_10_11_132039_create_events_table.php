@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('events', function (Blueprint $table) {
             $table->id();
             $table->string('nama_kegiatan');
+            $table->text('deskripsi')->nullable(); // Tambahkan deskripsi
             $table->date('tanggal_kegiatan');
             $table->string('lokasi_kegiatan');
             $table->string('sasaran_kegiatan');
             $table->string('penanggung_jawab');
             $table->string('dokumentasi')->nullable();
+            $table->enum('status', ['upcoming', 'ongoing', 'completed'])->default('upcoming'); // Status event
             $table->timestamps();
         });
     }

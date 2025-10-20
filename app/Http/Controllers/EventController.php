@@ -23,10 +23,13 @@ class EventController extends Controller
     {
         $validated = $request->validate([
             'nama_kegiatan' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
             'tanggal_kegiatan' => 'required|date',
+            'jam_kegiatan' => 'nullable',
             'lokasi_kegiatan' => 'required|string|max:255',
             'sasaran_kegiatan' => 'required|string|max:255',
             'penanggung_jawab' => 'required|string|max:255',
+            'status' => 'required|in:upcoming,ongoing,completed',
             'dokumentasi' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
@@ -51,10 +54,13 @@ class EventController extends Controller
     {
         $validated = $request->validate([
             'nama_kegiatan' => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
             'tanggal_kegiatan' => 'required|date',
+            'jam_kegiatan' => 'nullable',
             'lokasi_kegiatan' => 'required|string|max:255',
             'sasaran_kegiatan' => 'required|string|max:255',
             'penanggung_jawab' => 'required|string|max:255',
+            'status' => 'required|in:upcoming,ongoing,completed',
             'dokumentasi' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 

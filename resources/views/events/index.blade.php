@@ -29,13 +29,30 @@
                         </div>
                     @endif
                     <div class="p-4 text-white">
-                        <h3 class="font-bold text-lg mb-2">{{ $event->nama_kegiatan }}</h3>
-                        <div class="text-sm space-y-1">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-lg">{{ $event->nama_kegiatan }}</h3>
+                            @if($event->status === 'upcoming')
+                                <span class="bg-blue-500 text-xs px-2 py-1 rounded">Akan Datang</span>
+                            @elseif($event->status === 'ongoing')
+                                <span class="bg-green-500 text-xs px-2 py-1 rounded">Berlangsung</span>
+                            @else
+                                <span class="bg-gray-500 text-xs px-2 py-1 rounded">Selesai</span>
+                            @endif
+                        </div>
+                        <div class="text-sm space-y-1 mb-3">
                             <p><strong>Tanggal:</strong> {{ $event->tanggal_kegiatan->format('d M Y') }}</p>
+                            @if($event->jam_kegiatan)
+                                <p><strong>Jam:</strong> {{ \Carbon\Carbon::parse($event->jam_kegiatan)->format('H:i') }} WIB</p>
+                            @endif
                             <p><strong>Lokasi:</strong> {{ $event->lokasi_kegiatan }}</p>
                             <p><strong>Sasaran:</strong> {{ $event->sasaran_kegiatan }}</p>
                             <p><strong>PJ:</strong> {{ $event->penanggung_jawab }}</p>
                         </div>
+                        @if($event->deskripsi)
+                            <div class="text-sm mb-3 border-t border-teal-500 pt-2">
+                                <p class="text-teal-100">{{ Str::limit($event->deskripsi, 100) }}</p>
+                            </div>
+                        @endif
                         <div class="mt-4 flex gap-2">
                             <a href="{{ route('events.edit', $event) }}"
                                class="bg-blue-500 text-white px-4 py-2 rounded text-sm hover:bg-blue-600">Edit</a>
