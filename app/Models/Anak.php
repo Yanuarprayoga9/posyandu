@@ -35,6 +35,12 @@ class Anak extends Model
         return $this->tanggal_lahir_anak->age;
     }
 
+    public function pemeriksaans()
+    {
+        return $this->hasMany(Pemeriksaan::class);
+    }
+
+
     /**
      * Get formatted gender
      */

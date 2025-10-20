@@ -205,13 +205,13 @@
                 </button>
                 <ul id="riwayat-dropdown" class="hidden py-2 space-y-2">
                     <li>
-                        <a href="{{ route('anak.index') }}"
+                        <a href="{{ route('kpsp.index') }}"
                            class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700 transition-colors duration-200">
                             Perkembangan Anak & Balita
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('pemeriksaan.index') }}"
+                        <a href="{{ route('pantau-gizi.index') }}"
                            class="flex items-center w-full p-2 text-white rounded-lg pl-11 hover:bg-teal-700 transition-colors duration-200">
                             Pantau Gizi Anak
                         </a>
